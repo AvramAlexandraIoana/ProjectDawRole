@@ -1,0 +1,41 @@
+﻿@model ProjectDaw.Models.Product
+@{
+    ViewBag.Titlu = "Afisare produs";
+}
+
+<h2>@ViewBag.Titlu</h2>
+
+<div class="panel panel-default">
+    @Html.Partial("ProductInfo", Model)
+
+    @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
+        || ViewBag.esteAdmin)
+    {
+
+        <div class="panel-footer">
+            <a class="btn btn-success" href="/Product/Edit/@Model.ProductId">Modifica produs</a>
+            <br />
+        </div>
+    }
+</div>
+@if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
+      || ViewBag.esteAdmin)
+{
+    using (Html.BeginForm(actionName: "Delete", controllerName: "Product", method: FormMethod.Post, routeValues: new { id = @Model.ProductId }))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <br />
+        <button class="btn btn-success" type="submit">Sterge articol</button>
+
+    }
+
+
+    <br />
+    <hr />
+    <a class="btn btn-success" href="/Product/Index">Inapoi la produse</a>
+    <br />
+    <br />
+    <a class="btn btn-info" href="/Product/New">Adauga produse</a>
+    <br />
+}
+

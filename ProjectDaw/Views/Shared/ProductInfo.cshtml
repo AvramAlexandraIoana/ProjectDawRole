@@ -1,0 +1,13 @@
+﻿@model ProjectDaw.Models.Product
+
+<div class="panel-heading">@Model.Title</div>
+<div class="panel-body">
+    Continut articol: <strong>@Model.Description</strong>
+    <br />
+    <div class="label label-success">@Model.ImagePath</div>
+    <div class="label label-success">@Model.Price</div>
+    <div class="label label-success">@Model.Rating</div>
+    <div class="label label-success">@Model.Review</div>
+    <br />
+    <i class="glyphicon glyphicon-globe"></i> @Model.Category.CategoryName
+</div>

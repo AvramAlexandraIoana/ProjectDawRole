@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Afisare lista produse";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<hr />
+
+@if (TempData.ContainsKey("message"))
+{
+    <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
+}
+@foreach (ProjectDaw.Models.Product product in ViewBag.Products)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">@product.Title</div>
+        <div class="panel-body">
+            Continut articol: <strong>@product.Description</strong>
+            <br />
+            <div class="label label-success">@product.ImagePath</div>
+            <div class="label label-success">@product.Price</div>
+            <div class="label label-success">@product.Rating</div>
+            <div class="label label-success">@product.Review</div>
+            <br />
+            <i class="glyphicon glyphicon-globe"></i> @product.Category.CategoryName
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-sm btn-success"
+               href="/Product/Show/@product.ProductId">Afisare produs</a>
+        </div>
+    </div>
+    <br />
+}
+<br />
+<a class="btn btn-success" href="/Category/Index">Afisare lista categorii</a>
+<br />
+<br />
+<a class="btn btn-info" href="/Product/New">Adauga produs</a>
+<br />

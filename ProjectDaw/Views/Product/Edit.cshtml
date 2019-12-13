@@ -1,0 +1,64 @@
+﻿@model ProjectDaw.Models.Product
+@{
+    ViewBag.Titlu = "Editeaza un produs";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@using (Html.BeginForm(actionName: "Edit", controllerName: "Product"))
+{
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+
+    @Html.HiddenFor(m => m.ProductId)
+    <br />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <br />
+    <br />
+
+    @Html.Label("Title", "Titlu Produs")
+    <br />
+    @Html.TextBox("Title", null, new { @class = "form-control" })
+
+    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+    <br />
+    <br />
+    @Html.Label("Description", "Descriere Produs")
+    <br />
+    @Html.TextArea("Description", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+    <br />
+    @Html.Label("ImagePath", "Poza Produs")
+    <br />
+    @Html.TextBoxFor(m => m.ImagePath, new { type = "file" })
+    @Html.ValidationMessageFor(m => m.ImagePath, "", new { @class = "text-danger" })
+    <br />
+    @Html.Label("Price", "Pret Produs")
+    <br />
+    @Html.TextBox("Price", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+    <br />
+    <br />
+    @Html.Label("Rating", "Rating Produs")
+    <br />
+    @Html.TextBox("Rating", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Rating, "", new { @class = "text-danger" })
+    <br />
+    <br />
+    @Html.Label("Review", "Review Produs")
+    <br />
+    @Html.TextArea("Review", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Review, "", new { @class = "text-danger" })
+    <br />
+    <br />
+    <label>Selectati categoria</label>
+    @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categories,
+    "Value", "Text"),
+    "Selectati categoria", new { @class = "form-control" })
+
+    @Html.ValidationMessageFor(m => m.CategoryId, "", new { @class = "text-danger" })
+    <br />
+
+    <button class="btn btn-sm btn-success" type="submit">Modifica produsul</button>
+
+}
