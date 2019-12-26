@@ -5,7 +5,8 @@
 
 <h1> Adauga un nou produs</h1>
 
-@using (Html.BeginForm(actionName: "New", controllerName: "Product"))
+
+@using (Html.BeginForm("New", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
@@ -20,10 +21,10 @@
     @Html.TextArea("Description", null, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
     <br />
-    @Html.Label("ImagePath", "Poza Produs")
+    @Html.Label("ImageFile", "ImageFile")
     <br />
-    @Html.TextBoxFor(m => m.ImagePath, new { type = "file" })
-    @Html.ValidationMessageFor(m => m.ImagePath, "", new { @class = "text-danger" })
+    <input type="file" runat="server" id="MyImage" name="ImageFile" required />
+    @Html.Hidden("ImagePath", "not_null", new { @class = "form-control" })
     <br />
     @Html.Label("Price", "Pret Produs")
     <br />

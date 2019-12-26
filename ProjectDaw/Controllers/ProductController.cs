@@ -60,14 +60,29 @@ namespace ProjectDaw.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Editor,Administrator")]
+        [ValidateInput(false)]
+
         public ActionResult New(Product product)
         {
             product.Categories = GetAllCategories();
 
+            HttpPostedFileBase postedFile = Request.Files["ImageFile"];
+
+            if (postedFile == null)
+            {
+                product.ImagePath = null;
+                return View(product);
+            }
+
+            //TO DO
+            // Change image name so 2 users can add the same photo
+            product.ImagePath = postedFile.FileName;
+            var imagePath = HttpContext.Server.MapPath("~/Images/") + postedFile.FileName;
             try
             {
                 if (ModelState.IsValid)
                 {
+                    postedFile.SaveAs(imagePath);
                     db.Products.Add(product);
                     db.SaveChanges();
                     TempData["message"] = "Produsul a fost adaugat!";
