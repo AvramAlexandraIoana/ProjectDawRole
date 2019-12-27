@@ -15,15 +15,14 @@ namespace ProjectDaw.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();        // GET: Product
                                                                              //GET
         [Authorize(Roles = "User,Editor,Administrator")]
-        public ActionResult Index()
+        public ActionResult Index(string searching)
         {
             var products = db.Products.Include("Category").Include("User");
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
             }
-            ViewBag.Products = products;
-
+            ViewBag.Products = products.Where(x => (x.Title.Contains(searching) || x.Description.Contains(searching) || x.Review.Contains(searching)) || searching == null).ToList();
             return View();
         }
 

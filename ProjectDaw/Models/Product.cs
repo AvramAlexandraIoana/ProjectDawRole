@@ -56,13 +56,19 @@ namespace ProjectDaw.Models
 
         public virtual ApplicationUser User { get; set; }
     }
-
-   /* public class ProductDBContext : DbContext
+    public enum ListForSearch
     {
-        public ProductDBContext() : base("DBConnectionString") { }
-        public DbSet <Product> Products { get; set; }
-        public DbSet<Category> Categories{ get; set; }
+        Title,
+        Description,
+        Review
+    }
 
-    }*/
+    /* public class ProductDBContext : DbContext
+     {
+         public ProductDBContext() : base("DBConnectionString") { }
+         public DbSet <Product> Products { get; set; }
+         public DbSet<Category> Categories{ get; set; }
+
+     }*/
 
 }

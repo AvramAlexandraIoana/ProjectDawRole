@@ -1,4 +1,6 @@
-﻿
+﻿@using ProjectDaw.Models
+
+@model Product
 @{
     ViewBag.Title = "Afisare lista produse";
 }
@@ -11,6 +13,10 @@
 {
     <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
 }
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
+{
+    @Html.TextBox("searching")<input type="submit" value="Search" />
+}
 @foreach (ProjectDaw.Models.Product product in ViewBag.Products)
 {
     <div class="panel panel-default">
@@ -18,7 +24,7 @@
         <div class="panel-body">
             Continut articol: <strong>@product.Description</strong>
             <br />
-            <div class="label label-success">@product.ImagePath</div>
+            <img src="/Images/@product.ImagePath" alt="image" width="30%">
             <div class="label label-success">@product.Price</div>
             <div class="label label-success">@product.Rating</div>
             <div class="label label-success">@product.Review</div>
