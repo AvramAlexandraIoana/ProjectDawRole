@@ -1,13 +1,29 @@
 ﻿@model ProjectDaw.Models.Product
-
-<div class="panel-heading">@Model.Title</div>
+<div class="panel-heading product-heading">
+    <span class="font-roboto product-title">@Model.Title</span>
+</div>
 <div class="panel-body">
-    Continut articol: <strong>@Model.Description</strong>
+    <div>
+        <img src="/Images/@Model.ImagePath" alt="image" width="30%">
+    </div>
+    <span class="product-content-title">Descriere produs</span>
     <br />
-    <img src="/Images/@Model.ImagePath" alt="image" width="30%">
-    <div class="label label-success">@Model.Price</div>
-    <div class="label label-success">@Model.Rating</div>
-    <div class="label label-success">@Model.Review</div>
-    <br />
-    <i class="glyphicon glyphicon-globe"></i> @Model.Category.CategoryName
+    <div class="product-content-wrapper">
+        @Model.Description
+    </div>
+    <div>
+        @Model.Price
+    </div>
+    <div>
+        @Model.Rating
+    </div>
+    <div>
+        @Model.Review
+    </div>
+</div>
+<div class="article-meta">
+    <div>
+        <i class="glyphicon glyphicon-bookmark"></i>
+        @Model.Category.CategoryName
+    </div>
 </div>

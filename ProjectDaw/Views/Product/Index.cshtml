@@ -13,34 +13,51 @@
 {
     <h3 class="alert alert-info" role="alert">@ViewBag.message</h3>
 }
-@using (Html.BeginForm("Index", "Product", FormMethod.Get))
-{
-    @Html.TextBox("searching")<input type="submit" value="Search" />
-}
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+        {
+            @Html.TextBox("searching")<input type="submit" value="Search" />
+        }
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-sm-9">
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { id = "Form1" }))
+        {
+            <div class="col-md-3">
+                <b>Sort by:</b>
+                @Html.RadioButton("sortBy", "Price") Price
+                @Html.RadioButton("sortBy", "Rating") Rating
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("sort", new List<SelectListItem>
+
+                 {
+                    new SelectListItem{ Text="Ascending", Value = "1" },
+                    new SelectListItem{ Text="Descending", Value = "2" }
+                 }, "-- Order By --")
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-default" value="Filter" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 @foreach (ProjectDaw.Models.Product product in ViewBag.Products)
 {
-    <div class="panel panel-default">
-        <div class="panel-heading">@product.Title</div>
-        <div class="panel-body">
-            Continut articol: <strong>@product.Description</strong>
-            <br />
-            <img src="/Images/@product.ImagePath" alt="image" width="30%">
-            <div class="label label-success">@product.Price</div>
-            <div class="label label-success">@product.Rating</div>
-            <div class="label label-success">@product.Review</div>
-            <br />
-            <i class="glyphicon glyphicon-globe"></i> @product.Category.CategoryName
-        </div>
-        <div class="panel-footer">
-            <a class="btn btn-sm btn-success"
+    <div class="panel panel-article">
+        @Html.Partial("ProductInfo", product)
+        <div class="panel-footer product-panel-footer around">
+            <a class="btn btn-sm btn-success full-width"
                href="/Product/Show/@product.ProductId">Afisare produs</a>
         </div>
     </div>
     <br />
 }
-<br />
-<a class="btn btn-success" href="/Category/Index">Afisare lista categorii</a>
-<br />
-<br />
-<a class="btn btn-info" href="/Product/New">Adauga produs</a>
-<br />
+

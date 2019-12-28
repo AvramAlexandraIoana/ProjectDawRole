@@ -1,41 +1,26 @@
 ﻿@model ProjectDaw.Models.Product
 @{
-    ViewBag.Titlu = "Afisare produs";
+    ViewBag.Title = "Afisare produse";
 }
-
-<h2>@ViewBag.Titlu</h2>
-
+<h1>Afisare produs</h1>
 <div class="panel panel-default">
     @Html.Partial("ProductInfo", Model)
-
     @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
-        || ViewBag.esteAdmin)
+    || ViewBag.esteAdmin)
     {
+        <div class="panel-footer product-panel-footer">
+            <a class="btn btn-primary" href="/Product/Edit/@Model.ProductId">Modifica produs</a>
 
-        <div class="panel-footer">
-            <a class="btn btn-success" href="/Product/Edit/@Model.ProductId">Modifica produs</a>
-            <br />
+            @if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
+            || ViewBag.esteAdmin)
+            {
+                using (Html.BeginForm(actionName: "Delete", controllerName: "Product",
+               method: FormMethod.Post, routeValues: new { id = @Model.ProductId }))
+                {
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <button class="btn btn-danger" type="submit">Sterge produs</button>
+                }
+            }
         </div>
     }
 </div>
-@if (ViewBag.afisareButoane == true && Model.UserId == ViewBag.utilizatorCurent
-      || ViewBag.esteAdmin)
-{
-    using (Html.BeginForm(actionName: "Delete", controllerName: "Product", method: FormMethod.Post, routeValues: new { id = @Model.ProductId }))
-    {
-        @Html.HttpMethodOverride(HttpVerbs.Delete)
-        <br />
-        <button class="btn btn-success" type="submit">Sterge articol</button>
-
-    }
-
-
-    <br />
-    <hr />
-    <a class="btn btn-success" href="/Product/Index">Inapoi la produse</a>
-    <br />
-    <br />
-    <a class="btn btn-info" href="/Product/New">Adauga produse</a>
-    <br />
-}
-

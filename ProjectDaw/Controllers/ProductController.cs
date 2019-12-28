@@ -13,17 +13,61 @@ namespace ProjectDaw.Controllers
     public class ProductController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();        // GET: Product
-                                                                             //GET
+        private int _perPage = 3;
+
+        //GET
         [Authorize(Roles = "User,Editor,Administrator")]
-        public ActionResult Index(string searching)
+        public ActionResult Index(string sortBy, string sort, string searching)
         {
             var products = db.Products.Include("Category").Include("User");
+
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.message = TempData["message"].ToString();
             }
+
+            //search
             ViewBag.Products = products.Where(x => (x.Title.Contains(searching) || x.Description.Contains(searching) || x.Review.Contains(searching)) || searching == null).ToList();
+            
+            //sort ascending/descending
+            switch(sortBy)
+            {
+                case "Price":
+                    switch(sort)
+                    {
+                        case "1":
+                            ViewBag.Products = products.OrderBy(x => x.Price);
+                            break;
+                        case "2":
+                            ViewBag.Products = products.OrderByDescending(x => x.Price);
+                            break;
+                        default:
+                            ViewBag.Products = products.Where(x => (x.Title.Contains(searching) || x.Description.Contains(searching) || x.Review.Contains(searching)) || searching == null).ToList();
+                            break;
+                    }
+                    break;
+                case "Rating":
+                    switch (sort)
+                    {
+                        case "1":
+                            ViewBag.Products = products.OrderBy(x => x.Rating);
+                            break;
+                        case "2":
+                            ViewBag.Products = products.OrderByDescending(x => x.Rating);
+                            break;
+                        default:
+                            ViewBag.Products = products.Where(x => (x.Title.Contains(searching) || x.Description.Contains(searching) || x.Review.Contains(searching)) || searching == null).ToList();
+                            break;
+                    }
+                    break;
+                default:
+                    ViewBag.Products = products.Where(x => (x.Title.Contains(searching) || x.Description.Contains(searching) || x.Review.Contains(searching)) || searching == null).ToList();
+                    break;
+            }
+      
             return View();
+
+            
         }
 
 
@@ -105,6 +149,7 @@ namespace ProjectDaw.Controllers
             ViewBag.Product = product;
             product.Categories = GetAllCategories();
 
+       
             if (product.UserId == User.Identity.GetUserId() ||
                User.IsInRole("Administrator"))
             {
@@ -122,7 +167,6 @@ namespace ProjectDaw.Controllers
         public ActionResult Edit(int id, Product requestProduct)
         {
             requestProduct.Categories = GetAllCategories();
-
             try
             {
                 if (ModelState.IsValid)
@@ -135,11 +179,25 @@ namespace ProjectDaw.Controllers
                         {
                             product.Title = requestProduct.Title;
                             product.Description = requestProduct.Description;
-                            product.ImagePath = requestProduct.ImagePath;
                             product.Price = requestProduct.Price;
                             product.Rating = requestProduct.Rating;
                             product.Review = requestProduct.Review;
                             product.CategoryId = requestProduct.CategoryId;
+                            /*HttpPostedFileBase postedFile = Request.Files["ImageFile"];
+
+                            if (postedFile == null)
+                            {
+                                product.ImagePath = null;
+                                return View(product);
+                            }
+
+                            //TO DO
+                            // Change image name so 2 users can add the same photo
+                            product.ImagePath = postedFile.FileName;
+                            var imagePath = HttpContext.Server.MapPath("~/Images/") + postedFile.FileName;
+
+                            postedFile.SaveAs(imagePath);
+                            */
                             db.SaveChanges();
                             TempData["message"] = "Produsul a fost modificat!";
                         }
